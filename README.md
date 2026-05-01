@@ -26,14 +26,11 @@ Aplikacja korzysta z wbudowanego w Windows mechanizmu **WASAPI Loopback**. YouTu
 - Windows 10 lub 11
 - Co najmniej dwa urządzenia odtwarzające audio podłączone do komputera
 
-## Build ze źródeł
+## Pobieranie
 
-```bash
-pip install -r requirements.txt
-python build.py
-```
+Pobierz skompilowany plik `.exe` bezpośrednio z sekcji [Releases](https://github.com/caytec/1audio2headphones/releases/latest).
 
-Wynik: `dist/1Audio2Headphones.exe`.
+**Uwaga:** To repozytorium zawiera wyłącznie skompilowane pliki binarne. Kod źródłowy nie jest publicznie dostępny.
 
 ## Architektura
 

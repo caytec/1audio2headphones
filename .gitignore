@@ -1,3 +1,8 @@
+# Source code (binary releases only)
+app.py
+build.py
+requirements.txt
+
 # Build artifacts
 build/
 dist/
@@ -23,3 +28,4 @@ Thumbs.db
 venv/
 .venv/
 env/
+.github/workflows/
