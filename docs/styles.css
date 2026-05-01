@@ -60,6 +60,24 @@ em { color: #b8c5d6; font-style: normal; }
 }
 .nav-cta:hover { background: rgba(74,158,255,0.2); }
 
+.lang-toggle {
+  background: rgba(74,158,255,0.08);
+  border: 1px solid rgba(74,158,255,0.2);
+  color: #4a9eff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.05em;
+}
+.lang-toggle:hover {
+  background: rgba(74,158,255,0.15);
+  border-color: rgba(74,158,255,0.4);
+  box-shadow: 0 2px 8px rgba(74,158,255,0.2);
+}
+
 .hero-inner {
   position: relative; z-index: 5;
   max-width: 920px;
