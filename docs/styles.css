@@ -78,6 +78,15 @@ em { color: #b8c5d6; font-style: normal; }
   box-shadow: 0 2px 8px rgba(74,158,255,0.2);
 }
 
+.kofi-button {
+  display: inline-block;
+  margin-top: 24px;
+}
+.kofi-button img {
+  height: auto;
+  max-width: 100%;
+}
+
 .hero-inner {
   position: relative; z-index: 5;
   max-width: 920px;
@@ -373,6 +382,63 @@ section { padding: 100px 0; }
   color: #c8d2e0;
 }
 .usecase strong { color: #fff; font-weight: 600; }
+
+/* ── Changelog ─────────────────────────────────────────────────────────────── */
+.changelog { background: linear-gradient(180deg, #0a0e1a 0%, #0d1424 100%); }
+.timeline {
+  max-width: 700px;
+  margin: 40px auto 0;
+  position: relative;
+  padding: 20px 0;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, rgba(74,158,255,0.3) 0%, rgba(74,158,255,0) 100%);
+}
+.timeline-item {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 32px;
+  margin-bottom: 40px;
+  position: relative;
+}
+.timeline-marker {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #4a9eff 0%, #c084fc 100%);
+  border-radius: 50%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  box-shadow: 0 0 0 4px #0a0e1a, 0 0 20px rgba(74,158,255,0.3);
+}
+.timeline-content {
+  padding-top: 4px;
+}
+.timeline-date {
+  font-size: 12px;
+  font-weight: 700;
+  color: #4a9eff;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.timeline-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #fff;
+}
+.timeline-desc {
+  font-size: 14px;
+  color: #8892a4;
+  line-height: 1.6;
+}
 
 /* ── Download ──────────────────────────────────────────────────────────────── */
 .download { background: linear-gradient(180deg, #0a0e1a 0%, #0d1424 100%); padding: 100px 0; }
