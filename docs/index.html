@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1Audio2Headphones — Jeden dźwięk, dwie pary słuchawek</title>
+<meta name="description" content="Aplikacja Windows do słuchania jednego strumienia audio na dwóch parach słuchawek jednocześnie. Bez instalacji, bez wirtualnych kabli, bez konfiguracji.">
+<meta name="author" content="Kajetan Kupaj">
+<meta property="og:title" content="1Audio2Headphones">
+<meta property="og:description" content="Słuchaj tego samego dźwięku z komputera w dwóch parach słuchawek jednocześnie. Jeden plik .exe, zero instalacji.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script>
+// Translation object
+const translations = {
+  'pl': {
+    'nav.functions': 'Funkcje',
+    'nav.how': 'Jak działa',
+    'nav.why': 'Dlaczego my',
+    'nav.changelog': 'Zmiany',
+    'nav.download': 'Pobierz',
+    'hero.badge': 'Windows 10 / 11 · Jeden plik .exe · Bez instalacji',
+    'hero.title1': 'Jeden dźwięk.',
+    'hero.title2': 'Dwie pary słuchawek.',
+    'hero.subtitle': 'Słuchaj tego samego strumienia audio z komputera na dwóch dowolnych parach słuchawek jednocześnie. Bluetooth + kabel, dwa USB, jakakolwiek kombinacja. Zero instalacji. Zero wirtualnych kabli. Zero konfiguracji.',
+    'hero.download': 'Pobierz najnowszą wersję',
+    'hero.github': 'GitHub',
+    'hero.stat1num': '~28 MB',
+    'hero.stat1label': 'Jeden plik .exe',
+    'hero.stat2num': '10 ms',
+    'hero.stat2label': 'Latencja audio',
+    'hero.stat3num': '0',
+    'hero.stat3label': 'Sterowniki w systemie',
+    'problem.title': 'Znasz ten ból?',
+    'problem.lead': 'Chcesz oglądać film z drugą osobą, każdy w swoich słuchawkach. Albo grać w couch co-op gdzie obaj potrzebujecie audio. Windows pozwala wybrać <em>jedno</em> wyjście dźwięku. Co teraz?',
+    'problem.old.tag': 'Tradycyjnie',
+    'problem.old.title': 'Tak to się robi w internecie',
+    'problem.old.li1': 'Pobierz <strong>VB-Audio Virtual Cable</strong> (sterownik)',
+    'problem.old.li2': 'Zainstaluj jako administrator, zrestartuj komputer',
+    'problem.old.li3': 'Pobierz <strong>Voicemeeter Banana</strong> lub <strong>Potato</strong>',
+    'problem.old.li4': 'Obejrzyj 30-minutowy tutorial na YouTube',
+    'problem.old.li5': 'Skonfiguruj routing kanałów A1, A2, B1, B2',
+    'problem.old.li6': 'Włącz ukryte <strong>Stereo Mix</strong> w Realtek (jeśli istnieje)',
+    'problem.old.li7': 'Modlitwa, że nic się nie zepsuje przy aktualizacji Windows',
+    'problem.old.li8': 'Wirtualne sterowniki zostają w systemie na zawsze',
+    'problem.new.tag': '1Audio2Headphones',
+    'problem.new.title': 'Jak to robi nasza aplikacja',
+    'problem.new.li1': 'Pobierz <strong>jeden plik .exe</strong>',
+    'problem.new.li2': 'Kliknij dwukrotnie',
+    'problem.new.li3': 'Wybierz pierwsze słuchawki',
+    'problem.new.li4': 'Wybierz drugie słuchawki',
+    'problem.new.li5': 'Kliknij <strong>URUCHOM</strong>',
+    'problem.new.li6': 'Słuchajcie razem',
+    'problem.new.footer': 'Zero instalacji. Zero rejestru. Zero sterowników. <br> Zamykasz aplikację — system wraca do stanu początkowego.',
+    'features.title': 'Wszystko czego potrzebujesz',
+    'features.lead': 'Skupiona aplikacja, która robi jedną rzecz idealnie.',
+    'feature.noinstall.title': 'Zero instalacji',
+    'feature.noinstall.desc': 'Jeden plik wykonywalny, ~28 MB. Działa z pulpitu, z pendrive\'a, z dowolnego folderu. Nie wymaga uprawnień administratora.',
+    'feature.safe.title': 'Bezpieczne dla systemu',
+    'feature.safe.desc': 'Nie modyfikuje rejestru, nie instaluje sterowników, nie zostawia śladów. Korzysta wyłącznie z natywnych mechanizmów Windows.',
+    'feature.noecho.title': 'Zero echa',
+    'feature.noecho.desc': 'Architektura konstrukcyjnie uniemożliwia powstanie sprzężenia zwrotnego. Dźwięk leci tylko w jedną stronę — bez glitchy, bez pętli.',
+    'feature.bluetooth.title': 'Bluetooth + kabel',
+    'feature.bluetooth.desc': 'Działa z dowolną kombinacją. BT + jack, dwa USB, słuchawki + głośniki. Inteligentne buforowanie odporne na jitter Bluetooth.',
+    'feature.latency.title': 'Niska latencja',
+    'feature.latency.desc': '10 ms bufor WASAPI, kolejka 480 ms na nieprzewidywalne urządzenia. Praktycznie idealna synchronizacja między parami słuchawek.',
+    'feature.volume.title': 'Niezależne głośności',
+    'feature.volume.desc': 'Osobne suwaki dla głównego źródła i kopii. Każdy może mieć inny komfortowy poziom dźwięku.',
+    'feature.vu.title': 'Wskaźnik sygnału',
+    'feature.vu.desc': 'VU meter w czasie rzeczywistym. Od razu widzisz czy dźwięk faktycznie płynie i na jakim poziomie.',
+    'feature.memory.title': 'Pamięta ustawienia',
+    'feature.memory.desc': 'Wybór urządzeń identyfikowany po nazwie. Po ponownym podłączeniu Bluetooth nie musisz konfigurować od zera.',
+    'feature.ui.title': 'Nowoczesny interfejs',
+    'feature.ui.desc': 'Ciemny motyw, czytelne polskie etykiety, intuicyjny układ. Zaprojektowany żeby uruchomić w 30 sekund.',
+    'how.title': 'Jak to działa',
+    'how.lead': 'Trzy kroki. Bez tutoriali.',
+    'how.step1.title': 'Pobierz i uruchom',
+    'how.step1.desc': 'Pobierz jeden plik <code>.exe</code> i kliknij dwukrotnie. Aplikacja otwiera się od razu — nic się nie instaluje, nic nie pyta o uprawnienia.',
+    'how.step2.title': 'Wybierz dwie pary słuchawek',
+    'how.step2.desc': 'Z listy wykrytych urządzeń wybierz <strong>Pierwsze słuchawki</strong> (te które już grają normalnie z Windows) oraz <strong>Drugie słuchawki</strong> (do których aplikacja skopiuje dźwięk).',
+    'how.step3.title': 'Kliknij URUCHOM',
+    'how.step3.desc': 'Aplikacja używa wbudowanego w Windows mechanizmu <strong>WASAPI Loopback</strong> żeby podsłuchać dźwięk lecący do pierwszych słuchawek i wysłać identyczną kopię do drugich. W czasie rzeczywistym, bez opóźnień.',
+    'why.title': 'Dlaczego to jedyne takie rozwiązanie',
+    'why.p1': 'Wszystkie tradycyjne metody na Windowsie zakładają, że dźwięk musi przejść przez <strong>wirtualne urządzenie audio</strong> — sterownik instalowany w systemie, który tworzy "fałszywy" głośnik i mikrofon, przez które przepuszczasz sygnał.',
+    'why.p2': 'To podejście wymaga instalacji minimum dwóch programów (VB-Cable + Voicemeeter), konfiguracji dziesiątek opcji, restartu komputera i często godzin troubleshootingu. A co najgorsze — zostawia w systemie sterowniki które działają zawsze, nawet gdy ich nie potrzebujesz.',
+    'why.p3': '<strong>1Audio2Headphones korzysta wyłącznie z natywnego API Windows</strong> (WASAPI Loopback). Aplikacja jest zwykłym programem użytkownika. Nie potrzebuje sterowników bo Windows już je ma. Nie potrzebuje wirtualnych urządzeń bo używa Twoich prawdziwych urządzeń bezpośrednio.',
+    'why.p4': 'Efekt: <strong>jeden plik wykonywalny, zero śladów w systemie, działa od razu.</strong>',
+    'why.diagram.source': 'Źródło',
+    'why.diagram.source.items': 'YouTube · Spotify · Gra',
+    'why.diagram.windows': 'Windows',
+    'why.diagram.wasapi': 'WASAPI Loopback',
+    'why.diagram.app': '1Audio2Headphones',
+    'why.diagram.copy': 'Kopiowanie strumienia',
+    'why.diagram.out1': 'Bluetooth',
+    'why.diagram.out2': 'Kabel / USB',
+    'usecases.title': 'Do czego się przyda',
+    'usecase.movie': '🎬 <strong>Wspólne oglądanie filmu</strong> — każdy w swoich słuchawkach, bez głośnika',
+    'usecase.gaming': '🎮 <strong>Couch co-op gaming</strong> — dwóch graczy, jeden ekran, każdy słyszy',
+    'usecase.music': '🎵 <strong>Słuchanie muzyki we dwoje</strong> — bez głośnika w nocy',
+    'usecase.mixing': '🎧 <strong>Mixing & mastering</strong> — porównuj brzmienie na dwóch parach studyjnych',
+    'usecase.streaming': '📹 <strong>Streaming</strong> — słuchawki dla streamera + monitor dla operatora',
+    'usecase.baby': '👶 <strong>Wieczór bez budzenia dziecka</strong> — film cicho, oboje w słuchawkach',
+    'changelog.title': 'Historia zmian',
+    'changelog.lead': 'Wszystkie aktualizacje i poprawki w jednym miejscu.',
+    'changelog.v2.date': '1 maja 2026',
+    'changelog.v2.title': 'Obsługa wielu języków',
+    'changelog.v2.desc': 'Strona dostępna w języku polskim i angielskim z automatycznym wykrywaniem języka przeglądarki.',
+    'changelog.v1.date': '1 maja 2026',
+    'changelog.v1.title': 'Początkowy release',
+    'changelog.v1.desc': 'Pierwsza wersja 1Audio2Headphones: WASAPI Loopback, obsługa Bluetooth, integracja GitHub Pages.',
+    'download.title': 'Pobierz teraz',
+    'download.desc': 'Jeden plik .exe. ~28 MB. Windows 10 lub 11.',
+    'download.btn': 'Pobierz 1Audio2Headphones.exe',
+    'download.meta1': 'Zawsze najnowsza wersja — automatycznie aktualizowana z każdą zmianą w repozytorium. <br> Otwórz, wybierz dwie pary słuchawek, kliknij URUCHOM. Bez instalatora, bez restartów, bez śladów.',
+    'download.meta2': 'Zobacz wszystkie wydania →',
+    'footer.tag': 'Jeden dźwięk · Dwie pary słuchawek',
+    'footer.author': 'Created by',
+    'footer.meta': '© 2026 · MIT License',
+  },
+  'en': {
+    'nav.functions': 'Features',
+    'nav.how': 'How it works',
+    'nav.why': 'Why us',
+    'nav.changelog': 'Changelog',
+    'nav.download': 'Download',
+    'hero.badge': 'Windows 10 / 11 · Single .exe file · No installation',
+    'hero.title1': 'One sound.',
+    'hero.title2': 'Two pairs of headphones.',
+    'hero.subtitle': 'Listen to the same audio stream from your computer on any two pairs of headphones simultaneously. Bluetooth + cable, two USB, any combination. Zero installation. Zero virtual cables. Zero configuration.',
+    'hero.download': 'Download latest version',
+    'hero.github': 'GitHub',
+    'hero.stat1num': '~28 MB',
+    'hero.stat1label': 'Single .exe file',
+    'hero.stat2num': '10 ms',
+    'hero.stat2label': 'Audio latency',
+    'hero.stat3num': '0',
+    'hero.stat3label': 'Drivers installed',
+    'problem.title': 'Know this pain?',
+    'problem.lead': 'You want to watch a movie with someone else, each in your own headphones. Or play couch co-op where both need audio. Windows lets you choose <em>one</em> audio output. Now what?',
+    'problem.old.tag': 'The traditional way',
+    'problem.old.title': 'How people do it online',
+    'problem.old.li1': 'Download <strong>VB-Audio Virtual Cable</strong> (driver)',
+    'problem.old.li2': 'Install as administrator, restart computer',
+    'problem.old.li3': 'Download <strong>Voicemeeter Banana</strong> or <strong>Potato</strong>',
+    'problem.old.li4': 'Watch a 30-minute YouTube tutorial',
+    'problem.old.li5': 'Configure channel routing A1, A2, B1, B2',
+    'problem.old.li6': 'Enable hidden <strong>Stereo Mix</strong> in Realtek (if it exists)',
+    'problem.old.li7': 'Pray nothing breaks on Windows update',
+    'problem.old.li8': 'Virtual drivers stay in system forever',
+    'problem.new.tag': '1Audio2Headphones',
+    'problem.new.title': 'How our app does it',
+    'problem.new.li1': 'Download <strong>one .exe file</strong>',
+    'problem.new.li2': 'Double-click it',
+    'problem.new.li3': 'Select first headphones',
+    'problem.new.li4': 'Select second headphones',
+    'problem.new.li5': 'Click <strong>START</strong>',
+    'problem.new.li6': 'Listen together',
+    'problem.new.footer': 'Zero installation. Zero registry. Zero drivers. <br> Close the app — system returns to normal.',
+    'features.title': 'Everything you need',
+    'features.lead': 'A focused app that does one thing perfectly.',
+    'feature.noinstall.title': 'Zero installation',
+    'feature.noinstall.desc': 'Single executable, ~28 MB. Works from desktop, USB drive, any folder. No admin rights required.',
+    'feature.safe.title': 'System safe',
+    'feature.safe.desc': 'Doesn\'t modify registry, install drivers, or leave traces. Uses only native Windows mechanisms.',
+    'feature.noecho.title': 'Zero echo',
+    'feature.noecho.desc': 'Architecture makes feedback impossible by design. Sound flows in one direction only — no glitches, no loops.',
+    'feature.bluetooth.title': 'Bluetooth + cable',
+    'feature.bluetooth.desc': 'Works with any combination. BT + jack, two USB, headphones + speakers. Intelligent buffering resistant to Bluetooth jitter.',
+    'feature.latency.title': 'Low latency',
+    'feature.latency.desc': '10 ms WASAPI buffer, 480 ms queue for unpredictable devices. Nearly perfect sync between headphone pairs.',
+    'feature.volume.title': 'Independent volume',
+    'feature.volume.desc': 'Separate sliders for main source and copy. Each person can have their own comfortable sound level.',
+    'feature.vu.title': 'Signal indicator',
+    'feature.vu.desc': 'Real-time VU meter. See instantly if audio is flowing and at what level.',
+    'feature.memory.title': 'Remembers settings',
+    'feature.memory.desc': 'Device selection identified by name. Reconnect Bluetooth without reconfiguring from scratch.',
+    'feature.ui.title': 'Modern interface',
+    'feature.ui.desc': 'Dark theme, clear labels, intuitive layout. Designed to launch in 30 seconds.',
+    'how.title': 'How it works',
+    'how.lead': 'Three steps. No tutorials.',
+    'how.step1.title': 'Download and run',
+    'how.step1.desc': 'Download one <code>.exe</code> file and double-click it. The app opens immediately — nothing installs, nothing asks for permissions.',
+    'how.step2.title': 'Choose two pairs of headphones',
+    'how.step2.desc': 'From the list of detected devices, select <strong>First headphones</strong> (the ones already playing normally from Windows) and <strong>Second headphones</strong> (where the app will copy the sound).',
+    'how.step3.title': 'Click START',
+    'how.step3.desc': 'The app uses the Windows built-in <strong>WASAPI Loopback</strong> mechanism to listen to the sound going to your first headphones and send an identical copy to your second. In real-time, with no delay.',
+    'why.title': 'Why this is the only solution like it',
+    'why.p1': 'All traditional methods on Windows assume sound must pass through a <strong>virtual audio device</strong> — a driver installed on your system that creates a "fake" speaker and microphone you route sound through.',
+    'why.p2': 'This approach requires installing at least two programs (VB-Cable + Voicemeeter), configuring dozens of options, rebooting your computer, and often hours of troubleshooting. Worst part — it leaves drivers in your system running all the time, even when you don\'t need them.',
+    'why.p3': '<strong>1Audio2Headphones uses only native Windows API</strong> (WASAPI Loopback). It\'s a regular user program. It doesn\'t need drivers because Windows already has them. It doesn\'t need virtual devices because it uses your real devices directly.',
+    'why.p4': 'Result: <strong>one executable file, zero system traces, works immediately.</strong>',
+    'why.diagram.source': 'Source',
+    'why.diagram.source.items': 'YouTube · Spotify · Game',
+    'why.diagram.windows': 'Windows',
+    'why.diagram.wasapi': 'WASAPI Loopback',
+    'why.diagram.app': '1Audio2Headphones',
+    'why.diagram.copy': 'Stream copying',
+    'why.diagram.out1': 'Bluetooth',
+    'why.diagram.out2': 'Cable / USB',
+    'usecases.title': 'What you can do with it',
+    'usecase.movie': '🎬 <strong>Watch movies together</strong> — each in your own headphones, no speaker',
+    'usecase.gaming': '🎮 <strong>Couch co-op gaming</strong> — two players, one screen, everyone hears',
+    'usecase.music': '🎵 <strong>Listen to music together</strong> — without a speaker at night',
+    'usecase.mixing': '🎧 <strong>Mixing & mastering</strong> — compare sound on two studio pairs',
+    'usecase.streaming': '📹 <strong>Streaming</strong> — headphones for streamer + monitor for operator',
+    'usecase.baby': '👶 <strong>Evening without waking the baby</strong> — movie quiet, both in headphones',
+    'changelog.title': 'Changelog',
+    'changelog.lead': 'All updates and fixes in one place.',
+    'changelog.v2.date': 'May 1, 2026',
+    'changelog.v2.title': 'Multilingual support',
+    'changelog.v2.desc': 'Page available in Polish and English with automatic browser language detection.',
+    'changelog.v1.date': 'May 1, 2026',
+    'changelog.v1.title': 'Initial release',
+    'changelog.v1.desc': 'First version of 1Audio2Headphones: WASAPI Loopback, Bluetooth support, GitHub Pages integration.',
+    'download.title': 'Download now',
+    'download.desc': 'Single .exe file. ~28 MB. Windows 10 or 11.',
+    'download.btn': 'Download 1Audio2Headphones.exe',
+    'download.meta1': 'Always latest version — automatically updated with every repository change. <br> Open, select two pairs of headphones, click START. No installer, no restarts, no traces.',
+    'download.meta2': 'View all releases →',
+    'footer.tag': 'One sound · Two pairs of headphones',
+    'footer.author': 'Created by',
+    'footer.meta': '© 2026 · MIT License',
+  }
+};
+
+function t(key) {
+  const lang = document.documentElement.dataset.lang || 'en';
+  return translations[lang]?.[key] || translations['en'][key] || key;
+}
+
+function updatePageText() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    const text = t(key);
+    if (el.innerHTML.includes('<') || text.includes('<')) {
+      el.innerHTML = text;
+    } else {
+      el.textContent = text;
+    }
+  });
+}
+
+function toggleLanguage() {
+  const html = document.documentElement;
+  const currentLang = html.dataset.lang === 'pl' ? 'pl' : 'en';
+  const newLang = currentLang === 'pl' ? 'en' : 'pl';
+
+  html.lang = newLang;
+  html.dataset.lang = newLang;
+  localStorage.setItem('1a2h-lang', newLang);
+
+  const langToggle = document.getElementById('lang-toggle');
+  if (langToggle) {
+    langToggle.textContent = newLang === 'pl' ? 'EN' : 'PL';
+  }
+
+  // Update all text on the page
+  updatePageText();
+}
+
+// Auto-detect language and set initial state
+document.addEventListener('DOMContentLoaded', function() {
+  const savedLang = localStorage.getItem('1a2h-lang');
+  const browserLang = navigator.language.split('-')[0];
+  const initialLang = savedLang || (browserLang === 'pl' ? 'pl' : 'en');
+
+  document.documentElement.lang = initialLang;
+  document.documentElement.dataset.lang = initialLang;
+  localStorage.setItem('1a2h-lang', initialLang);
+
+  const langToggle = document.getElementById('lang-toggle');
+  if (langToggle) {
+    langToggle.textContent = initialLang === 'pl' ? 'EN' : 'PL';
+  }
+
+  // Initial translation
+  updatePageText();
+});
+</script>
+</head>
+<body>
+
+<header class="hero">
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="#" class="logo">
+        <span class="logo-icon">🎧</span>
+        <span class="logo-text">1Audio2Headphones</span>
+      </a>
+      <div class="nav-links">
+        <a href="#features" data-i18n="nav.functions">Funkcje</a>
+        <a href="#how" data-i18n="nav.how">Jak działa</a>
+        <a href="#why" data-i18n="nav.why">Dlaczego my</a>
+        <a href="#changelog" data-i18n="nav.changelog">Zmiany</a>
+        <a href="#download" class="nav-cta" data-i18n="nav.download">Pobierz</a>
+        <button id="lang-toggle" class="lang-toggle" onclick="toggleLanguage()" aria-label="Toggle language">EN</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="hero-inner">
+    <div class="hero-badge" data-i18n="hero.badge">Windows 10 / 11 · Jeden plik .exe · Bez instalacji</div>
+    <h1>
+      <span data-i18n="hero.title1">Jeden dźwięk.</span><br>
+      <span class="grad" data-i18n="hero.title2">Dwie pary słuchawek.</span>
+    </h1>
+    <p class="hero-sub" data-i18n="hero.subtitle">
+      Słuchaj tego samego strumienia audio z komputera na dwóch dowolnych parach słuchawek jednocześnie.
+      Bluetooth + kabel, dwa USB, jakakolwiek kombinacja. Zero instalacji.
+      Zero wirtualnych kabli. Zero konfiguracji.
+    </p>
+
+    <div class="hero-cta">
+      <a href="https://github.com/caytec/1audio2headphones/releases/latest/download/1Audio2Headphones.exe" class="btn btn-primary">
+        <span data-i18n="hero.download">Pobierz najnowszą wersję</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      </a>
+      <a href="https://github.com/caytec/1audio2headphones" class="btn btn-ghost" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        <span data-i18n="hero.github">GitHub</span>
+      </a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num" data-i18n="hero.stat1num">~28 MB</div><div class="stat-label" data-i18n="hero.stat1label">Jeden plik .exe</div></div>
+      <div class="stat-sep"></div>
+      <div class="stat"><div class="stat-num" data-i18n="hero.stat2num">10 ms</div><div class="stat-label" data-i18n="hero.stat2label">Latencja audio</div></div>
+      <div class="stat-sep"></div>
+      <div class="stat"><div class="stat-num" data-i18n="hero.stat3num">0</div><div class="stat-label" data-i18n="hero.stat3label">Sterowniki w systemie</div></div>
+    </div>
+  </div>
+
+  <div class="hero-glow"></div>
+</header>
+
+<section class="problem" id="problem">
+  <div class="container">
+    <h2 class="section-title" data-i18n="problem.title">Znasz ten ból?</h2>
+    <p class="section-lead" data-i18n="problem.lead">
+      Chcesz oglądać film z drugą osobą, każdy w swoich słuchawkach. Albo grać w couch co-op gdzie obaj
+      potrzebujecie audio. Windows pozwala wybrać <em>jedno</em> wyjście dźwięku. Co teraz?
+    </p>
+
+    <div class="comparison">
+      <div class="card card-bad">
+        <div class="card-header">
+          <span class="card-tag tag-bad" data-i18n="problem.old.tag">Tradycyjnie</span>
+          <h3 data-i18n="problem.old.title">Tak to się robi w internecie</h3>
+        </div>
+        <ul class="checklist checklist-bad">
+          <li data-i18n="problem.old.li1">Pobierz <strong>VB-Audio Virtual Cable</strong> (sterownik)</li>
+          <li data-i18n="problem.old.li2">Zainstaluj jako administrator, zrestartuj komputer</li>
+          <li data-i18n="problem.old.li3">Pobierz <strong>Voicemeeter Banana</strong> lub <strong>Potato</strong></li>
+          <li data-i18n="problem.old.li4">Obejrzyj 30-minutowy tutorial na YouTube</li>
+          <li data-i18n="problem.old.li5">Skonfiguruj routing kanałów A1, A2, B1, B2</li>
+          <li data-i18n="problem.old.li6">Włącz ukryte <strong>Stereo Mix</strong> w Realtek (jeśli istnieje)</li>
+          <li data-i18n="problem.old.li7">Modlitwa, że nic się nie zepsuje przy aktualizacji Windows</li>
+          <li data-i18n="problem.old.li8">Wirtualne sterowniki zostają w systemie na zawsze</li>
+        </ul>
+      </div>
+
+      <div class="card card-good">
+        <div class="card-header">
+          <span class="card-tag tag-good" data-i18n="problem.new.tag">1Audio2Headphones</span>
+          <h3 data-i18n="problem.new.title">Jak to robi nasza aplikacja</h3>
+        </div>
+        <ul class="checklist checklist-good">
+          <li data-i18n="problem.new.li1">Pobierz <strong>jeden plik .exe</strong></li>
+          <li data-i18n="problem.new.li2">Kliknij dwukrotnie</li>
+          <li data-i18n="problem.new.li3">Wybierz pierwsze słuchawki</li>
+          <li data-i18n="problem.new.li4">Wybierz drugie słuchawki</li>
+          <li data-i18n="problem.new.li5">Kliknij <strong>URUCHOM</strong></li>
+          <li data-i18n="problem.new.li6">Słuchajcie razem</li>
+        </ul>
+        <div class="card-footer" data-i18n="problem.new.footer">
+          Zero instalacji. Zero rejestru. Zero sterowników. <br>
+          Zamykasz aplikację — system wraca do stanu początkowego.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="features" id="features">
+  <div class="container">
+    <h2 class="section-title" data-i18n="features.title">Wszystko czego potrzebujesz</h2>
+    <p class="section-lead" data-i18n="features.lead">Skupiona aplikacja, która robi jedną rzecz idealnie.</p>
+
+    <div class="grid">
+      <div class="feature">
+        <div class="feature-icon">⚡</div>
+        <h3 data-i18n="feature.noinstall.title">Zero instalacji</h3>
+        <p data-i18n="feature.noinstall.desc">Jeden plik wykonywalny, ~28 MB. Działa z pulpitu, z pendrive'a, z dowolnego folderu.
+        Nie wymaga uprawnień administratora.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">🛡️</div>
+        <h3 data-i18n="feature.safe.title">Bezpieczne dla systemu</h3>
+        <p data-i18n="feature.safe.desc">Nie modyfikuje rejestru, nie instaluje sterowników, nie zostawia śladów.
+        Korzysta wyłącznie z natywnych mechanizmów Windows.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">🎯</div>
+        <h3 data-i18n="feature.noecho.title">Zero echa</h3>
+        <p data-i18n="feature.noecho.desc">Architektura konstrukcyjnie uniemożliwia powstanie sprzężenia zwrotnego.
+        Dźwięk leci tylko w jedną stronę — bez glitchy, bez pętli.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">📡</div>
+        <h3 data-i18n="feature.bluetooth.title">Bluetooth + kabel</h3>
+        <p data-i18n="feature.bluetooth.desc">Działa z dowolną kombinacją. BT + jack, dwa USB, słuchawki + głośniki.
+        Inteligentne buforowanie odporne na jitter Bluetooth.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">⚙️</div>
+        <h3 data-i18n="feature.latency.title">Niska latencja</h3>
+        <p data-i18n="feature.latency.desc">10 ms bufor WASAPI, kolejka 480 ms na nieprzewidywalne urządzenia.
+        Praktycznie idealna synchronizacja między parami słuchawek.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">🎚️</div>
+        <h3 data-i18n="feature.volume.title">Niezależne głośności</h3>
+        <p data-i18n="feature.volume.desc">Osobne suwaki dla głównego źródła i kopii.
+        Każdy może mieć inny komfortowy poziom dźwięku.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">📊</div>
+        <h3 data-i18n="feature.vu.title">Wskaźnik sygnału</h3>
+        <p data-i18n="feature.vu.desc">VU meter w czasie rzeczywistym. Od razu widzisz czy dźwięk faktycznie płynie
+        i na jakim poziomie.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">💾</div>
+        <h3 data-i18n="feature.memory.title">Pamięta ustawienia</h3>
+        <p data-i18n="feature.memory.desc">Wybór urządzeń identyfikowany po nazwie. Po ponownym podłączeniu Bluetooth
+        nie musisz konfigurować od zera.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">🌙</div>
+        <h3 data-i18n="feature.ui.title">Nowoczesny interfejs</h3>
+        <p data-i18n="feature.ui.desc">Ciemny motyw, czytelne polskie etykiety, intuicyjny układ.
+        Zaprojektowany żeby uruchomić w 30 sekund.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="how" id="how">
+  <div class="container">
+    <h2 class="section-title" data-i18n="how.title">Jak to działa</h2>
+    <p class="section-lead" data-i18n="how.lead">Trzy kroki. Bez tutoriali.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3 data-i18n="how.step1.title">Pobierz i uruchom</h3>
+          <p data-i18n="how.step1.desc">Pobierz jeden plik <code>.exe</code> i kliknij dwukrotnie. Aplikacja otwiera się od razu — nic się nie instaluje, nic nie pyta o uprawnienia.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3 data-i18n="how.step2.title">Wybierz dwie pary słuchawek</h3>
+          <p data-i18n="how.step2.desc">Z listy wykrytych urządzeń wybierz <strong>Pierwsze słuchawki</strong> (te które już grają normalnie z Windows) oraz <strong>Drugie słuchawki</strong> (do których aplikacja skopiuje dźwięk).</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3 data-i18n="how.step3.title">Kliknij URUCHOM</h3>
+          <p data-i18n="how.step3.desc">Aplikacja używa wbudowanego w Windows mechanizmu <strong>WASAPI Loopback</strong> żeby podsłuchać dźwięk lecący do pierwszych słuchawek i wysłać identyczną kopię do drugich. W czasie rzeczywistym, bez opóźnień.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="why" id="why">
+  <div class="container">
+    <div class="why-grid">
+      <div class="why-text">
+        <h2 class="section-title left" data-i18n="why.title">Dlaczego to jedyne takie rozwiązanie</h2>
+        <p data-i18n="why.p1">
+          Wszystkie tradycyjne metody na Windowsie zakładają, że dźwięk musi przejść przez
+          <strong>wirtualne urządzenie audio</strong> — sterownik instalowany w systemie,
+          który tworzy "fałszywy" głośnik i mikrofon, przez które przepuszczasz sygnał.
+        </p>
+        <p data-i18n="why.p2">
+          To podejście wymaga instalacji minimum dwóch programów (VB-Cable + Voicemeeter),
+          konfiguracji dziesiątek opcji, restartu komputera i często godzin troubleshootingu.
+          A co najgorsze — zostawia w systemie sterowniki które działają zawsze, nawet gdy
+          ich nie potrzebujesz.
+        </p>
+        <p data-i18n="why.p3">
+          <strong>1Audio2Headphones korzysta wyłącznie z natywnego API Windows</strong>
+          (WASAPI Loopback). Aplikacja jest zwykłym programem użytkownika. Nie potrzebuje
+          sterowników bo Windows już je ma. Nie potrzebuje wirtualnych urządzeń bo używa
+          Twoich prawdziwych urządzeń bezpośrednio.
+        </p>
+        <p data-i18n="why.p4">
+          Efekt: <strong>jeden plik wykonywalny, zero śladów w systemie, działa od razu.</strong>
+        </p>
+      </div>
+
+      <div class="why-visual">
+        <div class="diagram">
+          <div class="dgm-box dgm-source">
+            <div class="dgm-label" data-i18n="why.diagram.source">Źródło</div>
+            <div class="dgm-name" data-i18n="why.diagram.source.items">YouTube · Spotify · Gra</div>
+          </div>
+          <div class="dgm-arrow">↓</div>
+          <div class="dgm-box dgm-system">
+            <div class="dgm-label" data-i18n="why.diagram.windows">Windows</div>
+            <div class="dgm-name" data-i18n="why.diagram.wasapi">WASAPI Loopback</div>
+          </div>
+          <div class="dgm-arrow">↓</div>
+          <div class="dgm-box dgm-app">
+            <div class="dgm-label" data-i18n="why.diagram.app">1Audio2Headphones</div>
+            <div class="dgm-name" data-i18n="why.diagram.copy">Kopiowanie strumienia</div>
+          </div>
+          <div class="dgm-split">
+            <div class="dgm-arrow">↙</div>
+            <div class="dgm-arrow">↘</div>
+          </div>
+          <div class="dgm-row">
+            <div class="dgm-box dgm-out">
+              <div class="dgm-label">🎧 1</div>
+              <div class="dgm-name" data-i18n="why.diagram.out1">Bluetooth</div>
+            </div>
+            <div class="dgm-box dgm-out">
+              <div class="dgm-label">🎧 2</div>
+              <div class="dgm-name" data-i18n="why.diagram.out2">Kabel / USB</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="usecases">
+  <div class="container">
+    <h2 class="section-title" data-i18n="usecases.title">Do czego się przyda</h2>
+    <div class="usecase-grid">
+      <div class="usecase" data-i18n="usecase.movie">🎬 <strong>Wspólne oglądanie filmu</strong> — każdy w swoich słuchawkach, bez głośnika</div>
+      <div class="usecase" data-i18n="usecase.gaming">🎮 <strong>Couch co-op gaming</strong> — dwóch graczy, jeden ekran, każdy słyszy</div>
+      <div class="usecase" data-i18n="usecase.music">🎵 <strong>Słuchanie muzyki we dwoje</strong> — bez głośnika w nocy</div>
+      <div class="usecase" data-i18n="usecase.mixing">🎧 <strong>Mixing & mastering</strong> — porównuj brzmienie na dwóch parach studyjnych</div>
+      <div class="usecase" data-i18n="usecase.streaming">📹 <strong>Streaming</strong> — słuchawki dla streamera + monitor dla operatora</div>
+      <div class="usecase" data-i18n="usecase.baby">👶 <strong>Wieczór bez budzenia dziecka</strong> — film cicho, oboje w słuchawkach</div>
+    </div>
+  </div>
+</section>
+
+<section class="changelog" id="changelog">
+  <div class="container">
+    <h2 class="section-title" data-i18n="changelog.title">Historia zmian</h2>
+    <p class="section-lead" data-i18n="changelog.lead">Wszystkie aktualizacje i poprawki w jednym miejscu.</p>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-marker"></div>
+        <div class="timeline-content">
+          <div class="timeline-date" data-i18n="changelog.v2.date">1 maja 2026</div>
+          <h3 class="timeline-title" data-i18n="changelog.v2.title">Obsługa wielu języków</h3>
+          <p class="timeline-desc" data-i18n="changelog.v2.desc">Strona dostępna w języku polskim i angielskim z automatycznym wykrywaniem języka przeglądarki.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-marker"></div>
+        <div class="timeline-content">
+          <div class="timeline-date" data-i18n="changelog.v1.date">1 maja 2026</div>
+          <h3 class="timeline-title" data-i18n="changelog.v1.title">Początkowy release</h3>
+          <p class="timeline-desc" data-i18n="changelog.v1.desc">Pierwsza wersja 1Audio2Headphones: WASAPI Loopback, obsługa Bluetooth, integracja GitHub Pages.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="download" id="download">
+  <div class="container">
+    <div class="download-card">
+      <div class="download-icon">⬇</div>
+      <h2 data-i18n="download.title">Pobierz teraz</h2>
+      <p data-i18n="download.desc">Jeden plik .exe. ~28 MB. Windows 10 lub 11.</p>
+      <a href="https://github.com/caytec/1audio2headphones/releases/latest/download/1Audio2Headphones.exe" class="btn btn-primary btn-lg">
+        <span data-i18n="download.btn">Pobierz 1Audio2Headphones.exe</span>
+      </a>
+      <div class="download-meta" data-i18n="download.meta1">
+        Zawsze najnowsza wersja — automatycznie aktualizowana z każdą zmianą w repozytorium. <br>
+        Otwórz, wybierz dwie pary słuchawek, kliknij URUCHOM. Bez instalatora, bez restartów, bez śladów.
+      </div>
+      <div class="download-meta" style="margin-top: 12px;">
+        <a href="https://github.com/caytec/1audio2headphones/releases" target="_blank" rel="noopener" style="color:#4a9eff;" data-i18n="download.meta2">
+          Zobacz wszystkie wydania →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-left">
+      <div class="footer-brand">
+        <span class="logo-icon">🎧</span>
+        <span class="logo-text">1Audio2Headphones</span>
+      </div>
+      <div class="footer-tag" data-i18n="footer.tag">Jeden dźwięk · Dwie pary słuchawek</div>
+      <div class="kofi-button">
+        <a href='https://ko-fi.com/F1F51O3A4A' target='_blank' rel="noopener">
+          <img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi_button_blue.png' border='0' alt='Buy Me a Coffee at ko-fi.com' />
+        </a>
+      </div>
+    </div>
+    <div class="footer-right">
+      <div class="footer-author"><span data-i18n="footer.author">Created by</span> <a href="https://caytec.github.io" target="_blank" rel="noopener">Kajetan Kupaj</a></div>
+      <div class="footer-meta" data-i18n="footer.meta">© 2026 · MIT License</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
