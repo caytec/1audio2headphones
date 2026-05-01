@@ -1,0 +1,25 @@
+# Build artifacts
+build/
+dist/
+*.spec
+__pycache__/
+*.pyc
+*.pyo
+
+# Local app settings (created on first run)
+.1audio2headphones.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Python venv
+venv/
+.venv/
+env/
