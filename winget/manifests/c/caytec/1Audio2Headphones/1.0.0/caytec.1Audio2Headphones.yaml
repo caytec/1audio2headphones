@@ -1,0 +1,35 @@
+PackageIdentifier: caytec.1Audio2Headphones
+PackageVersion: 1.0.0
+PackageLocale: en-US
+Publisher: Kajetan Kupaj
+PublisherUrl: https://caytec.github.io
+PublisherSupportUrl: https://github.com/caytec/1audio2headphones/issues
+PackageName: 1Audio2Headphones
+PackageUrl: https://caytec.github.io/1audio2headphones
+License: MIT
+LicenseUrl: https://github.com/caytec/1audio2headphones/blob/main/LICENSE
+ShortDescription: Stream one audio source to two headphone outputs simultaneously
+Description: |-
+  1Audio2Headphones is a lightweight Windows application that streams one audio source
+  to two headphone outputs simultaneously. Perfect for watching movies together,
+  couch co-op gaming, or sharing music without speakers.
+
+  Uses native Windows WASAPI Loopback - no virtual cables, no Voicemeeter, no drivers.
+  Single .exe file, zero installation, zero configuration.
+Moniker: 1audio2headphones
+Tags:
+- audio
+- headphones
+- wasapi
+- loopback
+- sound
+- bluetooth
+- streaming
+- utility
+Installers:
+- Architecture: x64
+  InstallerType: portable
+  InstallerUrl: https://github.com/caytec/1audio2headphones/releases/latest/download/1Audio2Headphones.exe
+  InstallerSha256: F5D89056BE45946550B0532739F18A314A5D47D0C41A7446244871F4073F3EE7
+ManifestType: singleton
+ManifestVersion: 1.12.0

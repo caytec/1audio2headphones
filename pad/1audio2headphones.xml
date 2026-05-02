@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XML_DIZ_INFO>
+  <MASTER_PAD_VERSION>4.0</MASTER_PAD_VERSION>
+  <MASTER_PAD_EDITOR>Manual</MASTER_PAD_EDITOR>
+  <Company_Info>
+    <Company_Name>Kajetan Kupaj</Company_Name>
+    <Company_WebSite_URL>https://caytec.github.io</Company_WebSite_URL>
+    <Contact_Info>
+      <Author_First_Name>Kajetan</Author_First_Name>
+      <Author_Last_Name>Kupaj</Author_Last_Name>
+      <Author_Email>coopaisolutions@gmail.com</Author_Email>
+    </Contact_Info>
+  </Company_Info>
+  <Program_Info>
+    <Program_Name>1Audio2Headphones</Program_Name>
+    <Program_Version>1.0.0</Program_Version>
+    <Program_Release_Month>05</Program_Release_Month>
+    <Program_Release_Day>01</Program_Release_Day>
+    <Program_Release_Year>2026</Program_Release_Year>
+    <Program_Cost_Dollars>0</Program_Cost_Dollars>
+    <Program_Cost_Other_Code></Program_Cost_Other_Code>
+    <Program_Cost_Other></Program_Cost_Other>
+    <Program_Type>Freeware</Program_Type>
+    <Program_Release_Status>Major Update</Program_Release_Status>
+    <Program_Install_Support>Install and Uninstall</Program_Install_Support>
+    <Program_OS_Support>Win10,Win11</Program_OS_Support>
+    <Program_Language>English,Polish</Program_Language>
+    <Program_Change_Info>Initial public release with WASAPI Loopback support, Bluetooth compatibility, real-time VU meter.</Program_Change_Info>
+    <Program_Specific_Category>Audio</Program_Specific_Category>
+    <Program_Categories>
+      <Main_Category>Audio &amp; Multimedia</Main_Category>
+      <Sub_Category>Audio Utility</Sub_Category>
+    </Program_Categories>
+    <Program_Description>
+      <Keywords>audio,headphones,WASAPI,loopback,bluetooth,sound,streaming,utility,windows</Keywords>
+      <Char_Desc_45>Stream audio to two headphones simultaneously</Char_Desc_45>
+      <Char_Desc_80>Stream one audio source to two headphone pairs simultaneously. No install needed.</Char_Desc_80>
+      <Char_Desc_250>1Audio2Headphones streams one audio source to two headphone pairs simultaneously. No virtual cables, no Voicemeeter, no drivers. Single .exe file using native Windows WASAPI Loopback. Works with Bluetooth and cable combinations.</Char_Desc_250>
+      <Char_Desc_450>1Audio2Headphones lets you listen to the same audio on two pairs of headphones at once. Perfect for watching movies together, couch co-op gaming, or sharing music. Uses native Windows WASAPI Loopback — no virtual cables, no Voicemeeter, no driver installation required. Single portable .exe file (~25 MB). Supports Bluetooth + cable, two USB, any combination.</Char_Desc_450>
+      <Char_Desc_2000>1Audio2Headphones is a lightweight Windows application that streams one audio source to two headphone outputs simultaneously. Perfect for watching movies together, couch co-op gaming, or sharing music without speakers.
+
+Key Features:
+- Zero installation — single portable .exe file (~25 MB)
+- Zero configuration — works immediately after opening
+- Works with any combination: Bluetooth + cable, two USB, headphones + speakers
+- Low latency (10 ms) using native Windows WASAPI Loopback
+- Independent volume controls for each pair of headphones
+- Real-time audio level VU meter indicator
+- Saves device settings automatically
+- Works on Windows 10 and Windows 11
+
+Traditional methods (VB-Cable + Voicemeeter) require installing drivers, configuring complex routing, and can break on Windows updates. 1Audio2Headphones uses only native Windows API — no drivers, no virtual devices, no registry modifications.</Char_Desc_2000>
+    </Program_Description>
+    <Web_Info>
+      <Application_URLs>
+        <App_URL_Website>https://caytec.github.io/1audio2headphones</App_URL_Website>
+        <App_URL_Download>https://github.com/caytec/1audio2headphones/releases/latest/download/1Audio2Headphones.exe</App_URL_Download>
+        <App_URL_Support>https://github.com/caytec/1audio2headphones/issues</App_URL_Support>
+      </Application_URLs>
+    </Web_Info>
+    <File_Info>
+      <File_Size_Bytes>26473573</File_Size_Bytes>
+      <File_Size_K>25853</File_Size_K>
+      <File_Size_MB>25.2</File_Size_MB>
+    </File_Info>
+  </Program_Info>
+</XML_DIZ_INFO>

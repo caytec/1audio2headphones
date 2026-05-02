@@ -1,0 +1,59 @@
+name: Submit to Winget
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to submit (e.g. 1.0.1)'
+        required: true
+
+jobs:
+  winget:
+    runs-on: windows-latest
+    steps:
+      - name: Get release version
+        id: version
+        shell: pwsh
+        run: |
+          if ("${{ github.event_name }}" -eq "release") {
+            $ver = "${{ github.event.release.tag_name }}" -replace '^v',''
+          } else {
+            $ver = "${{ github.event.inputs.version }}"
+          }
+          echo "VERSION=$ver" >> $env:GITHUB_OUTPUT
+
+      - name: Compute SHA256 of installer
+        id: sha
+        shell: pwsh
+        run: |
+          $url = "https://github.com/${{ github.repository }}/releases/download/${{ github.event.release.tag_name }}/1Audio2Headphones.exe"
+          if ("${{ github.event_name }}" -ne "release") {
+            $url = "https://github.com/${{ github.repository }}/releases/latest/download/1Audio2Headphones.exe"
+          }
+          $tmp = "$env:TEMP\1Audio2Headphones.exe"
+          Invoke-WebRequest -Uri $url -OutFile $tmp -UseBasicParsing
+          $hash = (Get-FileHash $tmp -Algorithm SHA256).Hash
+          echo "SHA256=$hash" >> $env:GITHUB_OUTPUT
+          echo "INSTALLER_URL=$url" >> $env:GITHUB_OUTPUT
+
+      - name: Install wingetcreate
+        shell: pwsh
+        run: |
+          Invoke-WebRequest -Uri https://aka.ms/wingetcreate/latest -OutFile wingetcreate.exe
+          .\wingetcreate.exe --version
+
+      - name: Submit to winget-pkgs
+        shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ secrets.WINGET_TOKEN }}
+        run: |
+          $version = "${{ steps.version.outputs.VERSION }}"
+          $sha = "${{ steps.sha.outputs.SHA256 }}"
+          $url = "${{ steps.sha.outputs.INSTALLER_URL }}"
+          .\wingetcreate.exe update caytec.1Audio2Headphones `
+            --version $version `
+            --urls $url `
+            --submit `
+            --token $env:GITHUB_TOKEN

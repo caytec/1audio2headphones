@@ -1,0 +1,89 @@
+name: Build & Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt pyinstaller
+
+      - name: Build exe
+        run: python build.py
+
+      - name: Get version
+        id: version
+        shell: pwsh
+        run: |
+          $tag = "${{ github.ref_name }}"
+          $ver = $tag -replace '^v',''
+          echo "VERSION=$ver" >> $env:GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "1Audio2Headphones v${{ steps.version.outputs.VERSION }}"
+          body: |
+            ## 1Audio2Headphones v${{ steps.version.outputs.VERSION }}
+
+            Pobierz plik `.exe` i uruchom — zero instalacji, zero konfiguracji.
+
+            **Wymagania:** Windows 10 lub 11
+          files: dist/1Audio2Headphones.exe
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  winget:
+    needs: build
+    runs-on: windows-latest
+    if: startsWith(github.ref, 'refs/tags/')
+
+    steps:
+      - name: Get version
+        id: version
+        shell: pwsh
+        run: |
+          $tag = "${{ github.ref_name }}"
+          $ver = $tag -replace '^v',''
+          echo "VERSION=$ver" >> $env:GITHUB_OUTPUT
+
+      - name: Download released exe and compute SHA256
+        id: sha
+        shell: pwsh
+        run: |
+          Start-Sleep -Seconds 30
+          $url = "https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/1Audio2Headphones.exe"
+          $tmp = "$env:TEMP\1Audio2Headphones.exe"
+          Invoke-WebRequest -Uri $url -OutFile $tmp -UseBasicParsing
+          $hash = (Get-FileHash $tmp -Algorithm SHA256).Hash
+          echo "SHA256=$hash" >> $env:GITHUB_OUTPUT
+          echo "URL=$url" >> $env:GITHUB_OUTPUT
+
+      - name: Install wingetcreate
+        shell: pwsh
+        run: |
+          Invoke-WebRequest -Uri https://aka.ms/wingetcreate/latest -OutFile wingetcreate.exe
+
+      - name: Submit to winget-pkgs
+        shell: pwsh
+        env:
+          WINGET_TOKEN: ${{ secrets.WINGET_TOKEN }}
+        run: |
+          .\wingetcreate.exe update caytec.1Audio2Headphones `
+            --version ${{ steps.version.outputs.VERSION }} `
+            --urls "${{ steps.sha.outputs.URL }}" `
+            --submit `
+            --token $env:WINGET_TOKEN
