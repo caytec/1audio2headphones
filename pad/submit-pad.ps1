@@ -67,10 +67,10 @@ function Submit-PadToPortal {
 }
 
 # --- START ---
-Write-Log "=" * 60
-Write-Log "  1Audio2Headphones - Automatyczne zgłoszenie do portali"
+Write-Log ("-" * 60)
+Write-Log "  1Audio2Headphones - Automatyczne zgloszenie do portali"
 Write-Log "  PAD URL: $PAD_URL"
-Write-Log "=" * 60
+Write-Log ("-" * 60)
 
 $success = 0
 $fail = 0
@@ -90,10 +90,10 @@ foreach ($portal in $MANUAL_PORTALS) {
     Start-Sleep -Seconds 2
 }
 
-Write-Log "`n"
-Write-Log "=" * 60
+Write-Log ""
+Write-Log ("-" * 60)
 Write-Log "  WYNIKI:"
-Write-Log "  Automatyczne wysłanie: $success ok, $fail nieudane" "$(if ($fail -eq 0) { 'Green' } else { 'Yellow' })"
-Write-Log "  Reczne (otwarte w przegladarce): $($MANUAL_PORTALS.Count)" "Cyan"
+Write-Log "  Automatyczne wyslanie: $success ok, $fail nieudane"
+Write-Log "  Reczne (otwarte w przegladarce): $($MANUAL_PORTALS.Count)"
 Write-Log "  Log zapisany do: $LOG_FILE"
-Write-Log "=" * 60
+Write-Log ("-" * 60)
