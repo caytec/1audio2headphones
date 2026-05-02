@@ -32,6 +32,15 @@ Pobierz skompilowany plik `.exe` bezpośrednio z sekcji [Releases](https://githu
 
 **Uwaga:** To repozytorium zawiera wyłącznie skompilowane pliki binarne. Kod źródłowy nie jest publicznie dostępny.
 
+## Wspomóż projekt
+
+Jeśli aplikacja Ci się podoba i chciałbyś wesprzeć jej rozwój, możesz wnieść dowolną wpłatę:
+
+- **[Ko-Fi ☕](https://ko-fi.com/F1F51O3A4A)** — szybka donacja bez konfiguracji
+- **PayPal** — dostępne bezpośrednio w aplikacji
+
+Wszystkie wpłaty pomagają finansować rozwój nowych funkcji, poprawki błędów i wsparcie dla użytkowników. Dziękujemy! 💙
+
 ## Architektura
 
 - **Język:** Python 3.12
